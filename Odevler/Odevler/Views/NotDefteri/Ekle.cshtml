@@ -1,0 +1,27 @@
+﻿@model Not
+@{
+}
+
+@if (ViewBag.Hata != null)
+{
+  <div class="alert alert-danger" role="alert">
+    @ViewBag.Hata
+  </div>
+}
+<div>
+  @using (Html.BeginForm())
+  {
+    <div>
+      @Html.LabelFor(x => x.Detay)
+      @Html.EditorFor(x => x.Detay)
+    </div>
+    <div>
+      @Html.LabelFor(x => x.Oncelik)
+      @Html.EditorFor(x => x.Oncelik)
+    </div>
+    <div>
+      <input class="btn btn-success" type="submit" name="Onayla" value="Onayla" />
+    </div>
+  }
+</div>
+

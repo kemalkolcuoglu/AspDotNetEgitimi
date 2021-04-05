@@ -1,0 +1,15 @@
+﻿@model Anket
+
+@using(Html.BeginForm())
+{
+  @Html.HiddenFor(x => x.ID)
+<ul class="list-group">
+  <li class="list-group-item active" aria-current="true">@Model.Soru</li>
+  <li class="list-group-item">@Html.RadioButtonFor(x => x.A, Model.ASikki) @Model.ASikki </li>
+  <li class="list-group-item">@Html.RadioButtonFor(x => x.B, Model.BSikki) @Model.BSikki</li>
+  <li class="list-group-item">@Html.RadioButtonFor(x => x.C, Model.CSikki) @Model.CSikki</li>
+  <li class="list-group-item">@Html.RadioButtonFor(x => x.D, Model.DSikki) @Model.DSikki</li>
+</ul>
+
+<input type="submit" name="Onayla" value="Onayla" />
+}

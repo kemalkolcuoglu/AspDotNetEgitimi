@@ -1,0 +1,40 @@
+﻿@model List<Odevler.Models.Blog>
+
+@{
+}
+@*
+  <ul class="list-group">
+    <li class="list-group-item active" aria-current="true">Son Blog Yazıları</li>
+    @foreach (var item in Model)
+    {
+      <li class="list-group-item">@Html.ActionLink(item.Baslik, "Detay", "Blog", new { id = item.ID })</li>
+    }
+  </ul>
+*@
+<div>
+  @Html.ActionLink("Yazı Ekle", "Ekle", "Blog")
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Başlık</th>
+      <th scope="col">Detay</th>
+      <th scope="col">Düzenle</th>
+      <th scope="col">Sil</th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model)
+    {
+      <tr>
+        <th scope="row">@item.ID</th>
+        <td>@item.Baslik</td>
+        <td>@Html.ActionLink("Detay", "Detay", "Blog", new { id = item.ID })</td>
+        <td>@Html.ActionLink("Düzenle", "Duzenle", "Blog", new { id = item.ID })</td>
+        <td>@Html.ActionLink("Sil", "Sil", "Blog", new { id = item.ID })</td>
+      </tr>
+    }
+  </tbody>
+</table>

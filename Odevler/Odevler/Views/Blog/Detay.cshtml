@@ -1,0 +1,13 @@
+﻿@model Blog
+@{
+}
+
+<div class="card" style="width: 18rem;">
+  <img src="https://lh3.googleusercontent.com/proxy/MvIIlZYXfAgjVwa1qAPVEYX6SSTlPQbyb4b7m20C2rHiyT8n4TZhiWf5QdOO_OjPEuq6EzrPENJa0xTk_PQG1ZN_P9rTkIhJpl8y6gzP5-5-" class="card-img-top">
+  <div class="card-body">
+    <h5 class="card-title">@Model.Baslik</h5>
+    <h6>@Model.Tarih.ToString("dd MMMM yyyy")</h6>
+    <p class="card-text">@Model.Icerik</p>
+    <a href="#" class="btn btn-primary">@Model.Yazar</a>
+  </div>
+</div>
