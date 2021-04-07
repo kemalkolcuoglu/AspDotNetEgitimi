@@ -24,6 +24,11 @@ namespace IdentityGiris.Controllers
             return View();
         }
 
+        public IActionResult Deneme()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();

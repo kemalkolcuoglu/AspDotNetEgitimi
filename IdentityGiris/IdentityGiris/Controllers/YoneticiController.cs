@@ -30,6 +30,11 @@ namespace IdentityGiris.Controllers
             return View(users);
         }
 
+        public IActionResult Deneme()
+        {
+            return View();
+        }
+
         public IActionResult RoleIndex()
         {
             List<IdentityRole> roller = _roleManager.Roles.ToList();
