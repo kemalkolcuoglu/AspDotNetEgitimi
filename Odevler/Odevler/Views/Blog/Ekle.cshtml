@@ -19,7 +19,8 @@
     </div>
     <div>
       @Html.LabelFor(x => x.Tarih)
-      @Html.EditorFor(x => x.Tarih)
+      @*Html.EditorFor(x => x.Tarih)*@
+      <input asp-for="Tarih" type="date" name="Tarih" value="" />
     </div>
     <div>
       @Html.LabelFor(x => x.Icerik)

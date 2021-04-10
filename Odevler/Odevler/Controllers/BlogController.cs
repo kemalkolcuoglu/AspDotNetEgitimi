@@ -20,6 +20,7 @@ namespace Odevler.Controllers
         public IActionResult Liste()
         {
             List<Blog> bloglar = _context.Blog.OrderByDescending(x => x.Tarih).ToList();
+            ViewData["context"] = _context;
             return View(bloglar);
         }
 

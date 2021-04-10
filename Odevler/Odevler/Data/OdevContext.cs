@@ -18,6 +18,9 @@ namespace Odevler.Data
         public DbSet<Anket> Anket { get; set; }
         public DbSet<Sonuc> Sonuc { get; set; }
 
+        public DbSet<Kisi> Kisi { get; set; }
+        public DbSet<Adres> Adres { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Blog>().ToTable("Blog");

@@ -1,16 +1,11 @@
-﻿@model List<Odevler.Models.Blog>
+﻿@*@model List<Odevler.Models.Blog>*@
 
 @{
+    var _context = ViewData["context"] as Odevler.Data.OdevContext;
+    List<Blog> bloglar = _context.Blog.ToList();
 }
-@*
-  <ul class="list-group">
-    <li class="list-group-item active" aria-current="true">Son Blog Yazıları</li>
-    @foreach (var item in Model)
-    {
-      <li class="list-group-item">@Html.ActionLink(item.Baslik, "Detay", "Blog", new { id = item.ID })</li>
-    }
-  </ul>
-*@
+
+
 <div>
   @Html.ActionLink("Yazı Ekle", "Ekle", "Blog")
 </div>
