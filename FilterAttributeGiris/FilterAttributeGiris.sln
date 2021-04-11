@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31105.61
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FilterAttributeGiris", "FilterAttributeGiris\FilterAttributeGiris.csproj", "{EFB1EEED-CE7B-4FC4-9AA7-F1F04738F06D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EFB1EEED-CE7B-4FC4-9AA7-F1F04738F06D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFB1EEED-CE7B-4FC4-9AA7-F1F04738F06D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFB1EEED-CE7B-4FC4-9AA7-F1F04738F06D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFB1EEED-CE7B-4FC4-9AA7-F1F04738F06D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E92AC3A5-720B-48ED-9E2E-5DAA1522BF08}
+	EndGlobalSection
+EndGlobal
