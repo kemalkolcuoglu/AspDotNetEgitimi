@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Odevler.Data;
 using Odevler.Models;
 using System;
@@ -22,6 +23,11 @@ namespace Odevler.Controllers
             List<Blog> bloglar = _context.Blog.OrderByDescending(x => x.Tarih).ToList();
             ViewData["context"] = _context;
             return View(bloglar);
+        }
+
+        public void Deneme()
+        {
+            var a = _context.Blog.FromSqlRaw<Blog>("Select * From Blog Where ID=?", new object[1] { 1 });
         }
 
         public IActionResult Detay(int? id)

@@ -31,15 +31,14 @@ namespace Odevler.Controllers
         }
 
         // GET: Blogs/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var blog = await _context.Blog
-                .FirstOrDefaultAsync(m => m.ID == id);
+            var blog = _context.Blog.FirstOrDefault(m => m.ID == id);
             if (blog == null)
             {
                 return NotFound();
