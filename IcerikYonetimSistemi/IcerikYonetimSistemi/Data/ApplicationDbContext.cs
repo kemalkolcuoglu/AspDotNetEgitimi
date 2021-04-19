@@ -14,8 +14,9 @@ namespace IcerikYonetimSistemi.Data
         {
         }
 
+        public DbSet<EtiketIcerik> EtiketIcerik { get; set; }
         public DbSet<Etiket> Etiket { get; set; }
-        public DbSet<Form> Form{ get; set; }
+        public DbSet<Form> Form { get; set; }
         public DbSet<Gorsel> Gorsel { get; set; }
         public DbSet<Icerik> Icerik { get; set; }
         public DbSet<Menu> Menu { get; set; }

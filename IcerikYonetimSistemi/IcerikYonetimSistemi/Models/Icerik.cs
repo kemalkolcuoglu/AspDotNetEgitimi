@@ -10,6 +10,11 @@ namespace IcerikYonetimSistemi.Models
 {
     public class Icerik : TemelModel
     {
+        public Icerik()
+        {
+            Yorumlar = new List<Yorum>();
+        }
+
         [DisplayName("Sayfa ID")]
         public int SayfaID { get; set; }
 
@@ -33,5 +38,7 @@ namespace IcerikYonetimSistemi.Models
 
         [ForeignKey(nameof(EtiketIcerikID))]
         public virtual EtiketIcerik EtiketIcerik { get; set; }
+
+        public virtual List<Yorum> Yorumlar { get; set; }
     }
 }

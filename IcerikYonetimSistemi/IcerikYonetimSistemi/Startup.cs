@@ -63,7 +63,12 @@ namespace IcerikYonetimSistemi
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
+                    pattern: "{controller=Home}/{action=Index}/{id?}"
+                );
+                endpoints.MapControllerRoute(
+                    name: "areas",
+                    pattern: "{area:exists}/{controller=Panel}/{action=Index}/{id?}"
+                );
                 endpoints.MapRazorPages();
             });
         }
