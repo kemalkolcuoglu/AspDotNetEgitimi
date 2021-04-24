@@ -17,6 +17,8 @@ namespace IcerikYonetimSistemi.Models
 
         public string KullaniciID { get; set; }
 
+        public DateTime Tarih { get; set; }
+
         [Required, MaxLength(1000)]
         public string Metin { get; set; }
 

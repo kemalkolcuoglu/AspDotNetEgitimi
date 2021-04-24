@@ -21,5 +21,6 @@ namespace IcerikYonetimSistemi.Data
         public DbSet<Icerik> Icerik { get; set; }
         public DbSet<Menu> Menu { get; set; }
         public DbSet<Sayfa> Sayfa { get; set; }
+        public DbSet<Yorum> Yorum { get; set; }
     }
 }

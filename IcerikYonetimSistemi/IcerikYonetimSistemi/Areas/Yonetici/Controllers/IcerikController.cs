@@ -1,6 +1,8 @@
 ﻿using IcerikYonetimSistemi.Data;
 using IcerikYonetimSistemi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -48,28 +50,50 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 
         public IActionResult Ekle()
         {
+            ViewBag.Etiketler = new SelectList(_context.Etiket, nameof(Etiket.ID), nameof(Etiket.Baslik));
             return View();
         }
 
         [HttpPost]
         public IActionResult Ekle(Icerik icerik)
         {
-            try
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                using (var transaction = _context.Database.BeginTransaction())
                 {
-                    icerik.DuzenlemeTarihi = DateTime.Now;
-                    icerik.EklemeTarihi = DateTime.Now;
-                    _context.Icerik.Add(icerik);
-                    int sonuc = _context.SaveChanges();
-                    if (sonuc >= 1)
-                        return RedirectToAction(nameof(Liste));
+                    try
+                    {
+                        icerik.DuzenlemeTarihi = DateTime.Now;
+                        icerik.EklemeTarihi = DateTime.Now;
+                        _context.Icerik.Add(icerik);
+                        int sonuc = _context.SaveChanges();
+
+                        foreach (var item in icerik.EtiketList)
+                        {
+                            EtiketIcerik ei = new EtiketIcerik()
+                            {
+                                IcerikID = icerik.ID,
+                                EtiketID = item
+                            };
+                            _context.EtiketIcerik.Add(ei);
+                        }
+                        sonuc = _context.SaveChanges();
+                        if (sonuc >= 1)
+                        {
+                            transaction.Commit();
+                            return RedirectToAction(nameof(Liste));
+                        }
+                        else
+                            throw new Exception("Kaydedilemedi!");
+                    }
+                    catch (Exception exp)
+                    {
+                        transaction.Rollback();
+                        _logger.LogError(exp, "Ekleme İşlemi Gerçekleştirilemedi - {Tarih}", DateTime.Now);
+                    }
                 }
             }
-            catch (Exception exp)
-            {
-                _logger.LogError(exp, "Ekleme İşlemi Gerçekleştirilemedi - {Tarih}", DateTime.Now);
-            }
+            ViewBag.Etiketler = new SelectList(_context.Etiket, nameof(Etiket.ID), nameof(Etiket.Baslik));
             return View(icerik);
         }
 
@@ -87,6 +111,8 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (icerik == null)
                 return NotFound();
 
+            ViewBag.Etiketler = new SelectList(_context.Etiket, nameof(Etiket.ID), nameof(Etiket.Baslik));
+
             return View(icerik);
         }
 
@@ -95,20 +121,44 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
         {
             try
             {
-                if(ModelState.IsValid)
+                if (ModelState.IsValid)
                 {
+                    int sonuc = 0;
                     Icerik _icerik = _context.Icerik.FirstOrDefault(x => x.ID == id);
                     _icerik.Baslik = icerik.Baslik;
                     _icerik.Detay = icerik.Detay;
                     _icerik.DuzenlemeTarihi = DateTime.Now;
                     _icerik.EkAlan = icerik.EkAlan;
-                    // TODO: Etiket Icerik icin duzenle islemini gerceklestir
                     _icerik.Etkin = icerik.Etkin;
                     _icerik.Gorsel = icerik.Gorsel;
                     _icerik.SayfaID = icerik.SayfaID;
                     _icerik.SEODescription = icerik.SEODescription;
                     _icerik.SEOTitle = icerik.SEOTitle;
-                    int sonuc = _context.SaveChanges();
+
+                    //--------------------------------------------------------------------------------------------
+                    List<EtiketIcerik> etiketIcerik = _context.EtiketIcerik.Where(x => x.IcerikID == id).ToList();
+                    using (var transaction = _context.Database.BeginTransaction())
+                    {
+                        try
+                        {
+                            _context.EtiketIcerik.RemoveRange(etiketIcerik);
+                            foreach (var item in icerik.EtiketList)
+                            {
+                                EtiketIcerik ei = new EtiketIcerik()
+                                {
+                                    IcerikID = id,
+                                    EtiketID = item
+                                };
+                                _context.EtiketIcerik.Add(ei);
+                            }
+                            sonuc = _context.SaveChanges();
+                            transaction.Commit();
+                        }
+                        catch (Exception exp)
+                        {
+                            transaction.Rollback();
+                        }
+                    }
                     if (sonuc >= 1)
                         return RedirectToAction(nameof(Liste));
                 }
@@ -117,6 +167,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 _logger.LogError(exp, "Duzenleme Islemi Gerceklestirilemedi! - {Tarih}", DateTime.Now);
             }
+            ViewBag.Etiketler = new SelectList(_context.Etiket, nameof(Etiket.ID), nameof(Etiket.Baslik));
             return View(icerik);
         }
 

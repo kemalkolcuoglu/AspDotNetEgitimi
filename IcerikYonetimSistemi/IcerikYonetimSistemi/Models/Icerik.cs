@@ -18,8 +18,8 @@ namespace IcerikYonetimSistemi.Models
         [DisplayName("Sayfa ID")]
         public int SayfaID { get; set; }
 
-        [DisplayName("Etiket İçerik ID")]
-        public int EtiketIcerikID { get; set; }
+        //[DisplayName("Etiket İçerik ID")]
+        //public int EtiketIcerikID { get; set; }
 
         [Required]
         public string Detay{ get; set; }
@@ -36,9 +36,11 @@ namespace IcerikYonetimSistemi.Models
         [ForeignKey(nameof(SayfaID))]
         public virtual Sayfa Sayfa { get; set; }
 
-        [ForeignKey(nameof(EtiketIcerikID))]
-        public virtual EtiketIcerik EtiketIcerik { get; set; }
+        //[ForeignKey(nameof(EtiketIcerikID))]
+        //public virtual EtiketIcerik EtiketIcerik { get; set; }
 
         public virtual List<Yorum> Yorumlar { get; set; }
+
+        public virtual List<int> EtiketList { get; set; }
     }
 }
