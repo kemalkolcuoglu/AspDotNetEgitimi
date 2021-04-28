@@ -1,13 +1,13 @@
 ﻿@model IEnumerable<IcerikYonetimSistemi.Models.Icerik>
 
 @{
-  ViewData["Title"] = "Index";
+  ViewData["Title"] = "İçerik Listesi";
 }
 
-<h1>Index</h1>
+<h1>İçerik Listesi</h1>
 
 <p>
-  <a asp-action="Create">Create New</a>
+  <a asp-action="Ekle">Ekle</a>
 </p>
 <table class="table">
   <thead>
@@ -26,9 +26,6 @@
       </th>
       <th>
         @Html.DisplayNameFor(model => model.Sayfa)
-      </th>
-      <th>
-        @Html.DisplayNameFor(model => model.EtiketIcerik)
       </th>
       <th>
         @Html.DisplayNameFor(model => model.SEOTitle)
@@ -68,9 +65,6 @@
           @Html.DisplayFor(modelItem => item.Sayfa.Baslik)
         </td>
         <td>
-          @Html.DisplayFor(modelItem => item.EtiketIcerik.ID)
-        </td>
-        <td>
           @Html.DisplayFor(modelItem => item.SEOTitle)
         </td>
         <td>
@@ -86,9 +80,9 @@
           @Html.DisplayFor(modelItem => item.Etkin)
         </td>
         <td>
-          <a asp-action="Edit" asp-route-id="@item.ID">Edit</a> |
-          <a asp-action="Details" asp-route-id="@item.ID">Details</a> |
-          <a asp-action="Delete" asp-route-id="@item.ID">Delete</a>
+          <a asp-action="Duzenle" asp-route-id="@item.ID">Düzenle</a> |
+          <a asp-action="Detay" asp-route-id="@item.ID">Detay</a> |
+          <a asp-action="Sil" asp-route-id="@item.ID">Sil</a>
         </td>
       </tr>
     }

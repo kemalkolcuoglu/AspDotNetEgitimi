@@ -1,36 +1,41 @@
 ﻿@model IcerikYonetimSistemi.Models.Icerik
 
 @{
-  ViewData["Title"] = "Edit";
+  ViewData["Title"] = "İçerik Düzenle";
 }
 
-<h1>Edit</h1>
+<h1>Düzenle</h1>
 
-<h4>Icerik</h4>
+<h4>İçerik</h4>
 <hr />
 <div class="row">
-  <div class="col-md-4">
-    <form asp-action="Edit">
+  <div class="col-md-12">
+    @*Html.BeginForm("Duzenle", "Icerik", FormMethod.Post, null)*@
+    <form asp-action="Duzenle" asp-controller="Icerik" asp-area="Yonetici" method="post">
       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-      @*<div class="form-group">
+      <div class="form-group">
         <label asp-for="SayfaID" class="control-label"></label>
-        <select asp-for="SayfaID" class="form-control" asp-items="ViewBag.SayfaID"></select>
-      </div>*@
+        <select asp-for="SayfaID" class="form-control" asp-items="ViewBag.Sayfalar"></select>
+      </div>
       <div class="form-group">
         <label asp-for="EtiketList" class="control-label"></label>
         <select asp-for="EtiketList" class="form-control" asp-items="ViewBag.Etiketler" multiple></select>
       </div>
       <div class="form-group">
+        <label asp-for="Baslik" class="control-label"></label>
+        <input asp-for="Baslik" class="form-control" />
+        <span asp-validation-for="Baslik" class="text-danger"></span>
+      </div>
+      <div class="form-group">
         <label asp-for="Detay" class="control-label"></label>
-        <input asp-for="Detay" class="form-control" />
+        <textarea asp-for="Detay" cols="5" rows="10" class="form-control"></textarea>
         <span asp-validation-for="Detay" class="text-danger"></span>
       </div>
       <div class="form-group">
         <label asp-for="Gorsel" class="control-label"></label>
-        <input asp-for="Gorsel" class="form-control" />
+        <input asp-for="Gorsel" type="file" class="form-control" />
         <span asp-validation-for="Gorsel" class="text-danger"></span>
       </div>
-      <input type="hidden" asp-for="ID" />
       <div class="form-group">
         <label asp-for="SEOTitle" class="control-label"></label>
         <input asp-for="SEOTitle" class="form-control" />
@@ -40,11 +45,6 @@
         <label asp-for="SEODescription" class="control-label"></label>
         <input asp-for="SEODescription" class="form-control" />
         <span asp-validation-for="SEODescription" class="text-danger"></span>
-      </div>
-      <div class="form-group">
-        <label asp-for="Baslik" class="control-label"></label>
-        <input asp-for="Baslik" class="form-control" />
-        <span asp-validation-for="Baslik" class="text-danger"></span>
       </div>
       <div class="form-group">
         <label asp-for="EkAlan" class="control-label"></label>
@@ -57,14 +57,14 @@
         </label>
       </div>
       <div class="form-group">
-        <input type="submit" value="Save" class="btn btn-primary" />
+        <input type="submit" value="Onayla" class="btn btn-primary" />
       </div>
     </form>
   </div>
 </div>
 
 <div>
-  <a asp-action="Index">Back to List</a>
+  <a asp-action="Liste">Listeye Dön</a>
 </div>
 
 @section Scripts {

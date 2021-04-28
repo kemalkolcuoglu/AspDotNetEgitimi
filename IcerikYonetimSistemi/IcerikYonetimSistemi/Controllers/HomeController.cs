@@ -1,4 +1,5 @@
-﻿using IcerikYonetimSistemi.Models;
+﻿using IcerikYonetimSistemi.Data;
+using IcerikYonetimSistemi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
@@ -12,10 +13,18 @@ namespace IcerikYonetimSistemi.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger)
         {
+            _context = context;
             _logger = logger;
+        }
+
+        public IActionResult MenuListele()
+        {
+            List<Menu> menuler = _context.Menu.Where(x => x.Etkin).ToList();
+            return PartialView(menuler);
         }
 
         public IActionResult Index()

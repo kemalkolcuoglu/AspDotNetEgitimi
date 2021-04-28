@@ -1,0 +1,22 @@
+﻿@model List<Menu>
+@{
+
+}
+
+<ul class="navbar-nav flex-grow-1">
+  @foreach (var item in Model)
+  {
+    <li class="nav-item">
+      <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">@item.Baslik</a>
+    </li>
+  }
+</ul>
+
+@*<ul class="navbar-nav flex-grow-1">
+    <li class="nav-item">
+      <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    </li>
+  </ul>*@

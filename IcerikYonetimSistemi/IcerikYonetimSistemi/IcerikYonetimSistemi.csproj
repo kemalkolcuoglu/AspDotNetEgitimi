@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Yonetici\Data\" />
-    <Folder Include="Areas\Yonetici\Models\" />
   </ItemGroup>
 
 </Project>

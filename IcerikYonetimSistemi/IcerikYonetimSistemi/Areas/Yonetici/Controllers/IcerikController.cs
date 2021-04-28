@@ -51,6 +51,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
         public IActionResult Ekle()
         {
             ViewBag.Etiketler = new SelectList(_context.Etiket, nameof(Etiket.ID), nameof(Etiket.Baslik));
+            ViewBag.Sayfalar = new SelectList(_context.Sayfa, nameof(Sayfa.ID), nameof(Sayfa.Baslik));
             return View();
         }
 
@@ -94,6 +95,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
                 }
             }
             ViewBag.Etiketler = new SelectList(_context.Etiket, nameof(Etiket.ID), nameof(Etiket.Baslik));
+            ViewBag.Sayfalar = new SelectList(_context.Sayfa, nameof(Sayfa.ID), nameof(Sayfa.Baslik));
             return View(icerik);
         }
 
@@ -112,7 +114,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
                 return NotFound();
 
             ViewBag.Etiketler = new SelectList(_context.Etiket, nameof(Etiket.ID), nameof(Etiket.Baslik));
-
+            ViewBag.Sayfalar = new SelectList(_context.Sayfa, nameof(Sayfa.ID), nameof(Sayfa.Baslik));
             return View(icerik);
         }
 
@@ -157,6 +159,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
                         catch (Exception exp)
                         {
                             transaction.Rollback();
+                            _logger.LogError(exp, "Duzenleme Islemi Gerceklestirilemedi - {Tarih}", DateTime.Now);
                         }
                     }
                     if (sonuc >= 1)
@@ -168,6 +171,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
                 _logger.LogError(exp, "Duzenleme Islemi Gerceklestirilemedi! - {Tarih}", DateTime.Now);
             }
             ViewBag.Etiketler = new SelectList(_context.Etiket, nameof(Etiket.ID), nameof(Etiket.Baslik));
+            ViewBag.Sayfalar = new SelectList(_context.Sayfa, nameof(Sayfa.ID), nameof(Sayfa.Baslik));
             return View(icerik);
         }
 

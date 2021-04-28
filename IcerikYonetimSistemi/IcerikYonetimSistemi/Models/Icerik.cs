@@ -41,6 +41,7 @@ namespace IcerikYonetimSistemi.Models
 
         public virtual List<Yorum> Yorumlar { get; set; }
 
+        [NotMapped]
         public virtual List<int> EtiketList { get; set; }
     }
 }
