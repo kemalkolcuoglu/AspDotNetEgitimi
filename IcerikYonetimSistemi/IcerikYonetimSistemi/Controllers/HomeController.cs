@@ -1,6 +1,8 @@
 ﻿using IcerikYonetimSistemi.Data;
 using IcerikYonetimSistemi.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -14,17 +16,56 @@ namespace IcerikYonetimSistemi.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ApplicationDbContext _context;
+        private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger)
+        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger, UserManager<IdentityUser> userManager)
         {
             _context = context;
             _logger = logger;
+            _userManager = userManager;
         }
 
-        public IActionResult MenuListele()
+        public IActionResult Sayfa(int id)
         {
-            List<Menu> menuler = _context.Menu.Where(x => x.Etkin).ToList();
-            return PartialView(menuler);
+            Sayfa sayfa = _context.Sayfa.Include(x => x.Icerikler).FirstOrDefault(x => x.ID == id && x.Etkin);
+
+            if (sayfa == null)
+                return NotFound();
+
+            return View(sayfa);
+        }
+
+        public IActionResult Icerik(int id)
+        {
+            Icerik icerik = _context.Icerik.Include(x => x.Yorumlar).FirstOrDefault(x => x.ID == id && x.Etkin);
+
+            if (icerik == null)
+                return NotFound();
+            ViewBag.EtiketIcerik = _context.EtiketIcerik.Where(x => x.IcerikID == id).Include(x => x.Etiket).ToList();
+
+            return View(icerik);
+        }
+
+        [HttpPost]
+        public IActionResult YorumEkle(Yorum yorum)
+        {
+            try
+            {
+                if(ModelState.IsValid)
+                {
+                    var userID = _userManager.GetUserId(this.User);
+                    yorum.KullaniciID = userID;
+                    yorum.Tarih = DateTime.Now;
+
+                    _context.Yorum.Add(yorum);
+                    int sonuc = _context.SaveChanges();
+                }
+            }
+            catch (Exception exp)
+            {
+                _logger.LogError(exp, "Yorum Ekleme Islemi Gerçeklestirilemedi - {Tarih}", DateTime.Now);
+            }
+            return RedirectToAction(nameof(Icerik), new { id = yorum.IcerikID });
         }
 
         public IActionResult Index()

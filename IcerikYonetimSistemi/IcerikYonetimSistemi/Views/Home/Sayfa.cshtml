@@ -1,0 +1,19 @@
+﻿@model Sayfa
+@{
+}
+
+<div class="row">
+  @foreach (var item in Model.Icerikler)
+  {
+  <div class="col-md-6">
+    <div class="card">
+      <img class="card-img-top" src="~/default/images/blog/@item.Gorsel" alt="">
+      <div class="card-body">
+        <h5 class="card-title">@item.Baslik</h5>
+        <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut bibendum ullamcorper maximus. Maecenas placerat orci nec dolor porttitor pharetra. Aliquam sit amet ipsum nulla. Integer vitae arcu luctus, pellentesque massa id, placerat felis. Praesent vitae diam felis. Fusce ut tortor id odio vestibulum mollis quis quis diam. Cras vitae est at quam rhoncus consectetur ut ac nisl. Nunc velit est, porta vel mauris non, vehicula ornare ex. Duis tincidunt sem nec nulla condimentum, a pharetra lectus rhoncus. Donec commodo enim at risus pharetra egestas. Nulla facilisi. Nunc tristique iaculis arcu id efficitur. Maecenas tellus massa, aliquam vel augue et, commodo convallis purus. </p>
+        @Html.ActionLink("Devamını Oku", "Icerik", "Home", new { id = item.ID }, new { @class = "btn btn-primary" })
+      </div>
+    </div>
+  </div>
+  }
+</div>

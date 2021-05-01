@@ -2,6 +2,7 @@
 using IcerikYonetimSistemi.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 
         public IActionResult Liste()
         {
-            List<Sayfa> sayfalar = _context.Sayfa.ToList();
+            List<Sayfa> sayfalar = _context.Sayfa.Include(x => x.Menu).ToList();
             return View(sayfalar);
         }
 

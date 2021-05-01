@@ -1,19 +1,30 @@
-﻿@model List<Menu>
+﻿@using IcerikYonetimSistemi.Data
+@using Microsoft.EntityFrameworkCore
+@inject ApplicationDbContext _context
 @{
-
+    var menu = _context.Menu.Where(x => x.Etkin).Include(x => x.Sayfalar).ToList();
 }
 
 <ul class="navbar-nav flex-grow-1">
-  @foreach (var item in Model)
+  <li class="nav-item">
+    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+  </li>
+  @foreach (var item in menu)
   {
     <li class="nav-item">
-      <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="">@item.Baslik</a>
+      @*<a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Sayfa">@item.Baslik</a>*@
+      @{string baslik = item.Sayfalar[0].Baslik;
+          int route = item.Sayfalar[0].ID;}
+      @Html.ActionLink(baslik, "Sayfa", "Home", new { id = route }, new {@class="nav-link text-dark"})
     </li>
   }
 </ul>
 
 @*<ul class="navbar-nav flex-grow-1">
-    <li class="nav-item">
+      <li class="nav-item">
       <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
     </li>
     <li class="nav-item">
