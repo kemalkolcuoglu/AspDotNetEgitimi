@@ -1,0 +1,60 @@
+﻿@model IEnumerable<IcerikYonetimSistemi.Models.Form>
+
+@{
+  ViewData["Title"] = "Form Listesi";
+}
+
+<h1>Form Listesi</h1>
+
+<p>
+  <a asp-action="Ekle" class="btn btn-primary">Form Ekle</a>
+</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.AdSoyad)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.EPosta)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Telefon)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Konu)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Detay)
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.AdSoyad)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.EPosta)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Telefon)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Konu)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Detay)
+        </td>
+        <td>
+          <a asp-action="Duzenle" asp-route-id="@item.ID">Düzenle</a> |
+          <a asp-action="Detay" asp-route-id="@item.ID">Detay</a> |
+          <a asp-action="Sil" asp-route-id="@item.ID">Sil</a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

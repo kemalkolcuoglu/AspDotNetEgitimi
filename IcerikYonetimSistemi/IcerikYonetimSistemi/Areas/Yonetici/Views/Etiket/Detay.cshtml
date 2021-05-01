@@ -1,0 +1,21 @@
+﻿@model IcerikYonetimSistemi.Models.Etiket
+
+@{
+  ViewData["Title"] = "Etiket Detay";
+}
+
+<h1>Etiket Detay</h1>
+<div>
+  <dl class="row">
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Baslik)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Baslik)
+    </dd>
+  </dl>
+</div>
+<div>
+  <a asp-action="Duzenle" asp-route-id="@Model.ID" class="btn btn-success">Düzenle</a> |
+  <a asp-action="Liste" class="btn btn-primary">Listeye Dön</a>
+</div>

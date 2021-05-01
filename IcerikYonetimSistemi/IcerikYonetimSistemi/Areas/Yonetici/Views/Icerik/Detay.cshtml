@@ -1,14 +1,11 @@
 ﻿@model IcerikYonetimSistemi.Models.Icerik
 
 @{
-  ViewData["Title"] = "Detay";
+  ViewData["Title"] = "İçerik Detay";
 }
 
-<h1>Detay</h1>
-
+<h1>İçerik Detay</h1>
 <div>
-  <h4>Icerik</h4>
-  <hr />
   <dl class="row">
     <dt class="col-sm-2">
       @Html.DisplayNameFor(model => model.Detay)
@@ -20,7 +17,7 @@
       @Html.DisplayNameFor(model => model.Gorsel)
     </dt>
     <dd class="col-sm-10">
-      <img src="~/@Model.Gorsel"/>
+      <img src="~/default/images/blog/@Model.Gorsel"/>
     </dd>
     <dt class="col-sm-2">
       @Html.DisplayNameFor(model => model.EklemeTarihi)
@@ -73,6 +70,6 @@
   </dl>
 </div>
 <div>
-  <a asp-action="Duzenle" asp-route-id="@Model.ID">Düzenle</a> |
-  <a asp-action="Liste">Listeye Dön</a>
+  <a asp-action="Duzenle" asp-route-id="@Model.ID" class="btn btn-success">Düzenle</a> |
+  <a asp-action="Liste" class="btn btn-primary">Listeye Dön</a>
 </div>

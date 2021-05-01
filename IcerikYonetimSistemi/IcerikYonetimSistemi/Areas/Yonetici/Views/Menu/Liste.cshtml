@@ -1,0 +1,60 @@
+﻿@model IEnumerable<IcerikYonetimSistemi.Models.Menu>
+
+@{
+  ViewData["Title"] = "Menü Listesi";
+}
+
+<h1>Menü Listesi</h1>
+
+<p>
+  <a asp-action="Ekle" class="btn btn-primary">Menü Ekle</a>
+</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.Baslik)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Ikon)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.EkAlan)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.AcilirMenuMu)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Etkin)
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.Baslik)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Ikon)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.EkAlan)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.AcilirMenuMu)
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Etkin)
+        </td>
+        <td>
+          <a asp-action="Duzenle" asp-route-id="@item.ID">Düzenle</a> |
+          <a asp-action="Detay" asp-route-id="@item.ID">Detay</a> |
+          <a asp-action="Sil" asp-route-id="@item.ID">Sil</a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>

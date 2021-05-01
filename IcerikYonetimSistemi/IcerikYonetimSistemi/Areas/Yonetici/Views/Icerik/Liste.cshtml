@@ -7,7 +7,7 @@
 <h1>İçerik Listesi</h1>
 
 <p>
-  <a asp-action="Ekle">Ekle</a>
+  <a asp-action="Ekle" class="btn btn-primary">İçerik Ekle</a>
 </p>
 <table class="table">
   <thead>
@@ -53,7 +53,7 @@
           @Html.DisplayFor(modelItem => item.Detay)
         </td>
         <td>
-          @Html.DisplayFor(modelItem => item.Gorsel)
+          <img src=~/default/images/blog/@item.Gorsel style="max-width:100px; max-height:100px;"/>
         </td>
         <td>
           @Html.DisplayFor(modelItem => item.EklemeTarihi)

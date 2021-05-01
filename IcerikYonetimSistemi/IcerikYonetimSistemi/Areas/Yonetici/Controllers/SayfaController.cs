@@ -1,6 +1,7 @@
 ﻿using IcerikYonetimSistemi.Data;
 using IcerikYonetimSistemi.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -48,6 +49,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 
         public IActionResult Ekle()
         {
+            ViewBag.Menuler = new SelectList(_context.Menu, nameof(Menu.ID), nameof(Menu.Baslik));
             return View();
         }
 
@@ -68,6 +70,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 _logger.LogError(exp, "Ekleme İşlemi Gerçekleştirilemedi - {Tarih}", DateTime.Now);
             }
+            ViewBag.Menuler = new SelectList(_context.Menu, nameof(Menu.ID), nameof(Menu.Baslik));
             return View(sayfa);
         }
 
@@ -84,6 +87,8 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 
             if (sayfa == null)
                 return NotFound();
+
+            ViewBag.Menuler = new SelectList(_context.Menu, nameof(Menu.ID), nameof(Menu.Baslik));
 
             return View(sayfa);
         }
@@ -111,6 +116,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 _logger.LogError(exp, "Duzenleme Islemi Gerceklestirilemedi! - {Tarih}", DateTime.Now);
             }
+            ViewBag.Menuler = new SelectList(_context.Menu, nameof(Menu.ID), nameof(Menu.Baslik));
             return View(sayfa);
         }
 

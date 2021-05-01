@@ -1,0 +1,25 @@
+﻿@model IcerikYonetimSistemi.Models.Etiket
+
+@{
+  ViewData["Title"] = "Etiket Sil";
+}
+
+<h1>Etiket Sil</h1>
+
+<h3>Aşağıda bilgileri listelenmiş Etiket silinecektir. Silmek istediğinize emin misiniz?</h3>
+<div>
+  <dl class="row">
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Baslik)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Baslik)
+    </dd>
+  </dl>
+
+  <form asp-action="Sil">
+    <input type="hidden" asp-for="ID" />
+    <input type="submit" value="Sil" class="btn btn-danger" /> |
+    <a asp-action="Liste" class="btn btn-primary">Listeye Dön</a>
+  </form>
+</div>
