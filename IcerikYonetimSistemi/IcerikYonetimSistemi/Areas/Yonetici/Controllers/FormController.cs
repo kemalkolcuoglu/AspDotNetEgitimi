@@ -8,11 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using IcerikYonetimSistemi.Data;
 using IcerikYonetimSistemi.Models;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authorization;
 
 namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 {
-    [Area("Yonetici")]
-    public class FormController : Controller
+    public class FormController : TemelController
     {
         private readonly ILogger<FormController> _logger;
         private readonly ApplicationDbContext _context;

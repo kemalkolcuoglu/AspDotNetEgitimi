@@ -1,5 +1,8 @@
 ﻿@model IcerikYonetimSistemi.Models.Yorum
 
+@{ 
+    var icerikId = ViewData["IcerikID"] as int?;
+}
 <h4>Yorum Ekle</h4>
 <hr />
 <div class="row">
@@ -11,6 +14,7 @@
         <input asp-for="Metin" class="form-control" />
         <span asp-validation-for="Metin" class="text-danger"></span>
       </div>
+      <input type="hidden" asp-for="IcerikID" value="@icerikId" />
       <div class="form-group">
         <input type="submit" value="Onayla" class="btn btn-primary" />
       </div>

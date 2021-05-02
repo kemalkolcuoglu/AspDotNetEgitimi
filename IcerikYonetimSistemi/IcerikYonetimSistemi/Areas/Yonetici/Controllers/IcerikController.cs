@@ -1,5 +1,6 @@
 ﻿using IcerikYonetimSistemi.Data;
 using IcerikYonetimSistemi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -11,8 +12,7 @@ using System.Threading.Tasks;
 
 namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 {
-    [Area("Yonetici")]
-    public class IcerikController : Controller
+    public class IcerikController : TemelController
     {
         private readonly ILogger<IcerikController> _logger;
         private readonly ApplicationDbContext _context;

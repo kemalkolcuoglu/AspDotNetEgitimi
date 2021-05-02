@@ -13,8 +13,7 @@ using System.Threading.Tasks;
 
 namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 {
-    [Area("Yonetici")]
-    public class GorselController : Controller
+    public class GorselController : TemelController
     {
         private readonly ApplicationDbContext _context;
         private readonly ILogger<GorselController> _logger;

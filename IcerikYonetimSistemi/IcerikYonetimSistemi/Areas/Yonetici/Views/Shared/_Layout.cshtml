@@ -18,6 +18,7 @@
   <!-- Custom styles for this template-->
   <link href="~/Yonetici/css/sb-admin-2.min.css" rel="stylesheet">
   @RenderSection(name: "Styles", required: false)
+  @RenderSection(name: "PartialStyles", required: false)
 
 </head>
 
@@ -87,6 +88,20 @@
         <a class="nav-link" asp-action="Liste" asp-controller="Form" asp-area="Yonetici">
           <i class="fas fa-align-center"></i>
           <span>Form</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" asp-action="Liste" asp-controller="Kullanici" asp-area="Yonetici">
+          <i class="fas fa-user"></i>
+          <span>Kullanıcı</span>
+        </a>
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link" asp-action="RolListe" asp-controller="Kullanici" asp-area="Yonetici">
+          <i class="fas fa-users"></i>
+          <span>Rol</span>
         </a>
       </li>
 
@@ -380,6 +395,7 @@
     <script src="~/Yonetici/js/demo/chart-pie-demo.js"></script>-->
 
     @RenderSection(name: "Scripts", required: false)
+    @RenderSection(name: "PartialScripts", required: false)
 
 </body>
 

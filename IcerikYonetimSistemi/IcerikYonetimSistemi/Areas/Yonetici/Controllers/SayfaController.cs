@@ -11,8 +11,7 @@ using System.Threading.Tasks;
 
 namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 {
-    [Area("Yonetici")]
-    public class SayfaController : Controller
+    public class SayfaController : TemelController
     {
         private readonly ILogger<SayfaController> _logger;
         private readonly ApplicationDbContext _context;

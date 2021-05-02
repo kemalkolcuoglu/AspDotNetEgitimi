@@ -1,5 +1,6 @@
 ﻿using IcerikYonetimSistemi.Data;
 using IcerikYonetimSistemi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,16 +38,19 @@ namespace IcerikYonetimSistemi.Controllers
 
         public IActionResult Icerik(int id)
         {
-            Icerik icerik = _context.Icerik.Include(x => x.Yorumlar).FirstOrDefault(x => x.ID == id && x.Etkin);
+            Icerik icerik = _context.Icerik.Include(x => x.Yorumlar).ThenInclude(y => y.Kullanici).FirstOrDefault(x => x.ID == id && x.Etkin);
 
             if (icerik == null)
                 return NotFound();
             ViewBag.EtiketIcerik = _context.EtiketIcerik.Where(x => x.IcerikID == id).Include(x => x.Etiket).ToList();
 
+            ViewData["IcerikID"] = icerik.ID;
+
             return View(icerik);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin, User")]
         public IActionResult YorumEkle(Yorum yorum)
         {
             try

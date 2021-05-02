@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 {
-    [Area("Yonetici")]
-    public class PanelController : Controller
+    public class PanelController : TemelController
     {
         public IActionResult Index()
         {

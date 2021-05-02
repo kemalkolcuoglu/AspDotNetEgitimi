@@ -5,7 +5,7 @@
 <div class="row">
   <div class="col-md-12">
     <h1>@Model.Baslik </h1>
-    <h5>@Model.EklemeTarihi.ToString("dd MMMM yyyyy")</h5>
+    <h5>@Model.EklemeTarihi.ToString("dd MMMM yyyy")</h5>
   </div>
   <div class="col-md-12">
     <img src="~/default/images/blog/@Model.Gorsel" />
@@ -14,8 +14,13 @@
     @Html.Raw(Model.Detay)
   </div>
 </div>
-<br /><br />
-<partial name="_YorumEkle" />
+<br />
+<br />
+@if(this.User.Identity.IsAuthenticated)
+{
+  <partial name="_YorumEkle" model="new Yorum() { IcerikID = Model.ID }" view-data="ViewData" />
+}
+
 <div class="row">
   <div class="col-md-12">
     <div class="card">
@@ -25,7 +30,7 @@
       <ul class="list-group list-group-flush">
         @foreach (var item in Model.Yorumlar)
         {
-          <li class="list-group-item">@item.KullaniciID - @item.Tarih: @item.Metin</li>
+          <li class="list-group-item">@item.Kullanici.UserName - @item.Tarih.ToString("dd MMMM yyyy"): @item.Metin</li>
         }
       </ul>
     </div>

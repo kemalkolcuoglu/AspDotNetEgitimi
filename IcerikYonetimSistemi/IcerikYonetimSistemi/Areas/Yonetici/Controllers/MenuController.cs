@@ -11,8 +11,7 @@ using Microsoft.Extensions.Logging;
 
 namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 {
-    [Area("Yonetici")]
-    public class MenuController : Controller
+    public class MenuController : TemelController
     {
         private readonly ILogger<MenuController> _logger;
         private readonly ApplicationDbContext _context;
