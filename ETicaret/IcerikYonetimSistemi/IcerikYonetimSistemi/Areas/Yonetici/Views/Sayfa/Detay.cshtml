@@ -1,0 +1,52 @@
+﻿@model Sayfa
+
+@{
+  ViewData["Title"] = "Sayfa Detay";
+  Layout = "~/Areas/Yonetici/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Sayfa Detay</h1>
+<div>
+  <dl class="row">
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Menu)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Menu.Baslik)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.SEOTitle)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.SEOTitle)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.SEODescription)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.SEODescription)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Baslik)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Baslik)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.EkAlan)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.EkAlan)
+    </dd>
+    <dt class="col-sm-2">
+      @Html.DisplayNameFor(model => model.Etkin)
+    </dt>
+    <dd class="col-sm-10">
+      @Html.DisplayFor(model => model.Etkin)
+    </dd>
+  </dl>
+</div>
+<div>
+  <a asp-action="Duzenle" asp-route-id="@Model.ID" class="btn btn-success">Düzenle</a> |
+  <a asp-action="Liste" class="btn btn-primary">Listeye Dön</a>
+</div>

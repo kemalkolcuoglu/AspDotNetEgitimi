@@ -1,0 +1,19 @@
+﻿@section PartialStyles{
+  <link href="~/Yonetici/vendor/summernote-0.8.18-dist/summernote.min.css" rel="stylesheet">
+}
+
+@section PartialScripts
+{
+  <script src="~/Yonetici/vendor/summernote-0.8.18-dist/summernote.min.js"></script>
+  <script src="~/Yonetici/vendor/summernote-0.8.18-dist/lang/summernote-tr-TR.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('#summernote').summernote({
+        placeholder: 'Hello Bootstrap 4',
+        tabsize: 2,
+        height: 100,
+        lang: 'tr-TR'
+      });
+    });
+  </script>
+}

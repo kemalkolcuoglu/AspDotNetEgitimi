@@ -1,0 +1,47 @@
+﻿@model IEnumerable<Gorsel>
+
+@{
+  ViewData["Title"] = "Liste";
+  Layout = "~/Areas/Yonetici/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Görsel Listesi</h1>
+
+<p>
+  <a asp-action="Yukle">Görsel Yükle</a>
+</p>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        @Html.DisplayNameFor(model => model.Baslik)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Yol)
+      </th>
+      <th>
+        @Html.DisplayNameFor(model => model.Etkin)
+      </th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    @foreach (var item in Model)
+    {
+      <tr>
+        <td>
+          @Html.DisplayFor(modelItem => item.Baslik)
+        </td>
+        <td>
+          <img src="~/default/images/blog/@item.Yol" alt="@item.Baslik" style="max-width:100px; max-height:100px;" />
+        </td>
+        <td>
+          @Html.DisplayFor(modelItem => item.Etkin)
+        </td>
+        <td>
+          <a asp-action="Sil" asp-route-id="@item.ID">Sil</a>
+        </td>
+      </tr>
+    }
+  </tbody>
+</table>
