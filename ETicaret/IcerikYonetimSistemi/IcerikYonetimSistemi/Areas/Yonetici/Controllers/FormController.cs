@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using IcerikYonetimSistemi.Data;
-using IcerikYonetimSistemi.Models;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authorization;
 using VarlikKatmani;
+using IslemKatmani;
 
 namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 {
     public class FormController : TemelController
     {
         private readonly ILogger<FormController> _logger;
-        private readonly ApplicationDbContext _context;
-        public FormController(ILogger<FormController> logger, ApplicationDbContext context)
+        private readonly FormService _formIslemleri;
+        public FormController(ILogger<FormController> logger, FormService formIslemleri)
         {
             _logger = logger;
-            _context = context;
+            _formIslemleri = formIslemleri;
         }
 
         // CRUD - Create, Read, Update, Delete
@@ -28,7 +22,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 
         public IActionResult Liste()
         {
-            List<Form> formlar = _context.Form.ToList();
+            List<Form> formlar = _formIslemleri.Listele();
             return View(formlar);
         }
 
@@ -37,7 +31,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Form form = _context.Form.FirstOrDefault(x => x.ID == id);
+            Form form = _formIslemleri.Bul(x => x.ID == id);
 
             if (form == null)
                 return NotFound();
@@ -61,8 +55,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Form.Add(form);
-                    int sonuc = _context.SaveChanges();
+                    int sonuc = _formIslemleri.Ekle(form);
                     if (sonuc >= 1)
                         return RedirectToAction(nameof(Liste));
                 }
@@ -83,7 +76,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Form form = _context.Form.FirstOrDefault(x => x.ID == id);
+            Form form = _formIslemleri.Bul(x => x.ID == id);
 
             if (form == null)
                 return NotFound();
@@ -98,13 +91,13 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Form _form = _context.Form.FirstOrDefault(x => x.ID == id);
+                    Form _form = _formIslemleri.Bul(x => x.ID == id);
                     _form.AdSoyad = form.AdSoyad;
                     _form.Detay = form.Detay;
                     _form.EPosta = form.EPosta;
                     _form.Konu = form.Konu;
                     _form.Telefon = form.Telefon;
-                    int sonuc = _context.SaveChanges();
+                    int sonuc = _formIslemleri.Guncele(_form);
                     if (sonuc >= 1)
                         return RedirectToAction(nameof(Liste));
                 }
@@ -125,7 +118,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Form form = _context.Form.FirstOrDefault(x => x.ID == id);
+            Form form = _formIslemleri.Bul(x => x.ID == id);
 
             if (form == null)
                 return NotFound();
@@ -138,9 +131,8 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
         {
             try
             {
-                Form _form = _context.Form.FirstOrDefault(x => x.ID == id);
-                _context.Form.Remove(_form);
-                int sonuc = _context.SaveChanges();
+                Form _form = _formIslemleri.Bul(x => x.ID == id);
+                int sonuc = _formIslemleri.Sil(_form);
                 if (sonuc >= 1)
                     return RedirectToAction(nameof(Liste));
             }

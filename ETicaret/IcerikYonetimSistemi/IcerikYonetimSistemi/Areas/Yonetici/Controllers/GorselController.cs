@@ -1,6 +1,4 @@
-﻿using IcerikYonetimSistemi.Areas.Yonetici.Models;
-using IcerikYonetimSistemi.Data;
-using IcerikYonetimSistemi.Models;
+﻿using IslemKatmani;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,20 +14,20 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 {
     public class GorselController : TemelController
     {
-        private readonly ApplicationDbContext _context;
+        private readonly GorselService _gorselIslemleri;
         private readonly ILogger<GorselController> _logger;
-        private readonly IHostingEnvironment _hostingEnv;
+        private readonly IWebHostEnvironment _hostingEnv;
 
-        public GorselController(ApplicationDbContext context, ILogger<GorselController> logger, IHostingEnvironment hostingEnv)
+        public GorselController(ILogger<GorselController> logger, GorselService gorselIslemleri, IWebHostEnvironment hostingEnv)
         {
-            _context = context;
+            _gorselIslemleri = gorselIslemleri;
             _logger = logger;
             _hostingEnv = hostingEnv;
         }
 
         public IActionResult Liste()
         {
-            List<Gorsel> gorseller = _context.Gorsel.OrderByDescending(x => x.ID).ToList();
+            List<Gorsel> gorseller = _gorselIslemleri.Sorgu().OrderByDescending(x => x.ID).ToList();
             return View(gorseller);
         }
 
@@ -59,8 +57,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
                     Yol = fileName,
                     Etkin = true
                 };
-                _context.Gorsel.Add(gorsel);
-                int sonuc = await _context.SaveChangesAsync();
+                int sonuc = _gorselIslemleri.Ekle(gorsel);
                 if (sonuc >= 1)
                     return RedirectToAction(nameof(Liste));
             }

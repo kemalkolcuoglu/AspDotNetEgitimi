@@ -18,6 +18,12 @@
   <link rel="apple-touch-icon-precomposed" sizes="114x114" href="~/default/images/ico/apple-touch-icon-114-precomposed.png">
   <link rel="apple-touch-icon-precomposed" sizes="72x72" href="~/default/images/ico/apple-touch-icon-72-precomposed.png">
   <link rel="apple-touch-icon-precomposed" href="~/default/images/ico/apple-touch-icon-57-precomposed.png">
+  <style>
+    #slider-container {
+      width: 350px;
+      margin-left: 30px;
+    }
+  </style>
 </head>
 
 <body>
@@ -338,15 +344,27 @@
                 </ul>
               </div>
             </div><!--/brands_products-->
-
-            <div class="price-range">
-              <!--price-range-->
-              <h2>Price Range</h2>
+            <!--<div class="price-range">-->
+            <!--price-range-->
+            <!--<h2>Price Range</h2>
               <div class="well text-center">
-                <input type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]" id="sl2"><br />
+                <input id="sl2" type="text" class="span2" value="" data-slider-min="0" data-slider-max="600" data-slider-step="5" data-slider-value="[250,450]"><br />
                 <b class="pull-left">$ 0</b> <b class="pull-right">$ 600</b>
               </div>
-            </div><!--/price-range-->
+            </div>-->
+            <!--/price-range-->
+
+            <div id="slider-container"></div>
+            <p>
+              <label for="amount">Price range:</label>
+              <input type="text" id="amount" style="border: 0; color: #f6931f; font-weight: bold;" />
+            </p>
+            <div id="computers">
+              <div class="system" data-price="299">div1 - 299</div>
+              <div class="system" data-price="599">div2 - 599</div>
+              <div class="system" data-price="1099">div3 - 1099</div>
+            </div>
+            <div id="slider-range"></div>
 
             <div class="shipping text-center">
               <!--shipping-->
@@ -523,8 +541,35 @@
   <script src="~/default/js/jquery.js"></script>
   <script src="~/default/js/bootstrap.min.js"></script>
   <script src="~/default/js/jquery.scrollUp.min.js"></script>
-  <script src="~/default/js/price-range.js"></script>
+  @*<script src="~/default/js/price-range.js"></script>*@
   <script src="~/default/js/jquery.prettyPhoto.js"></script>
   <script src="~/default/js/main.js"></script>
+  <script>
+    $(function () {
+      $('#slider-container').slider({
+        range: true,
+        min: 299,
+        max: 1099,
+        values: [299, 1099],
+        create: function () {
+          $("#amount").val("$299 - $1099");
+        },
+        slide: function (event, ui) {
+          $("#amount").val("$" + ui.values[0] + " - $" + ui.values[1]);
+          var mi = ui.values[0];
+          var mx = ui.values[1];
+          filterSystem(mi, mx);
+        }
+      })
+    });
+
+    function filterSystem(minPrice, maxPrice) {
+      $("#computers div.system").hide().filter(function () {
+        var price = parseInt($(this).data("price"), 10);
+        return price >= minPrice && price <= maxPrice;
+      }).show();
+    }
+  </script>
+  @RenderSection("Scripts", required: false)
 </body>
 </html>

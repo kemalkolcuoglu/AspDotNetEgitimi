@@ -1,4 +1,5 @@
-using IcerikYonetimSistemi.Data;
+using IcerikYonetimSistemi.Models;
+using IslemKatmani;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VarlikKatmani;
+using VeriErisimKatmani.Data;
 
 namespace IcerikYonetimSistemi
 {
@@ -29,15 +31,29 @@ namespace IcerikYonetimSistemi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddScoped<EtiketIcerikService>();
+            services.AddScoped<EtiketService>();
+            services.AddScoped<FavoriListesiService>();
+            services.AddScoped<FormService>();
+            services.AddScoped<GorselService>();
+            services.AddScoped<IcerikService>();
+            services.AddScoped<KategoriService>();
+            services.AddScoped<MenuService>();
+            services.AddScoped<SayfaService>();
+            services.AddScoped<SepetService>();
+            services.AddScoped<UrunGaleriService>();
+            services.AddScoped<UrunService>();
+            services.AddScoped<UrunYorumService>();
+            services.AddScoped<YorumService>();
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
             services.AddDatabaseDeveloperPageExceptionFilter();
-
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddRoles<IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            services.Configure<IyzicoModel>(Configuration.GetSection("IyzicoInformation"));
             //services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie();
             //services.AddAuthorization();
         }

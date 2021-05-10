@@ -1,0 +1,24 @@
+﻿@model Yorum
+
+@{ 
+    var icerikId = ViewData["IcerikID"] as int?;
+}
+<h4>Yorum Ekle</h4>
+<hr />
+<div class="row">
+  <div class="col-md-12">
+    <form asp-action="YorumEkle" asp-controller="Home">
+      <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+      <div class="form-group">
+        <label asp-for="Metin" class="control-label"></label>
+        <input asp-for="Metin" class="form-control" />
+        <span asp-validation-for="Metin" class="text-danger"></span>
+      </div>
+      <input type="hidden" asp-for="IcerikID" value="@icerikId" />
+      <div class="form-group">
+        <input type="submit" value="Onayla" class="btn btn-primary" />
+      </div>
+    </form>
+  </div>
+</div>
+

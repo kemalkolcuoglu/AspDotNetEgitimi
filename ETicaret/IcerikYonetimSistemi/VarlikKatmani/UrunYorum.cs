@@ -11,7 +11,7 @@ namespace VarlikKatmani
     public class UrunYorum
     {
         [Key]
-        public int ID { get; set; }
+        public int Id { get; set; }
 
         public int UrunId { get; set; }
 
@@ -29,6 +29,6 @@ namespace VarlikKatmani
         public virtual Urun Urun { get; set; }
 
         [ForeignKey(nameof(KullaniciId))]
-        public virtual Kullanici Kullanici { get; set; }
+        public virtual IdentityUser Kullanici { get; set; }
     }
 }

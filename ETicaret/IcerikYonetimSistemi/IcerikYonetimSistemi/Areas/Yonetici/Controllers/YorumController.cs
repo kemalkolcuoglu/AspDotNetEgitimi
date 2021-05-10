@@ -1,12 +1,9 @@
-﻿using IcerikYonetimSistemi.Data;
-using IcerikYonetimSistemi.Models;
+﻿using IslemKatmani;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using VarlikKatmani;
 
 namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
@@ -14,12 +11,12 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
     public class YorumController : TemelController
     {
         private readonly ILogger<YorumController> _logger;
-        private readonly ApplicationDbContext _context;
+        private readonly YorumService _yorumIslemleri;
         private readonly UserManager<IdentityUser> _userManager;
-        public YorumController(ILogger<YorumController> logger, ApplicationDbContext context, UserManager<IdentityUser> userManager)
+        public YorumController(ILogger<YorumController> logger, UserManager<IdentityUser> userManager, YorumService yorumIslemleri)
         {
             _logger = logger;
-            _context = context;
+            _yorumIslemleri = yorumIslemleri;
             _userManager = userManager;
         }
 
@@ -29,7 +26,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
         // id: IcerikID
         public IActionResult Liste(int id)
         {
-            List<Yorum> yorumlar = _context.Yorum.Where(x => x.IcerikID == id).ToList();
+            List<Yorum> yorumlar = _yorumIslemleri.ListeFiltre(x => x.IcerikID == id);
             return View(yorumlar);
         }
 
@@ -55,8 +52,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
                 yorum.KullaniciID = userId;
                 yorum.Tarih = DateTime.Now;
                 yorum.IcerikID = id;
-                _context.Yorum.Add(yorum);
-                int sonuc = _context.SaveChanges();
+                int sonuc = _yorumIslemleri.Ekle(yorum);
                 if (sonuc >= 1)
                     return RedirectToAction(nameof(Liste), new { id });
             }
@@ -76,7 +72,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null || yorumId == null)
                 return NotFound();
 
-            Yorum yorum = _context.Yorum.FirstOrDefault(x => x.ID == yorumId);
+            Yorum yorum = _yorumIslemleri.Bul(x => x.ID == yorumId);
 
             if (yorum == null)
                 return NotFound();

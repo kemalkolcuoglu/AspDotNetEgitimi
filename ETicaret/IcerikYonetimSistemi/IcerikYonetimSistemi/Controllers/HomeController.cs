@@ -1,5 +1,5 @@
-﻿using IcerikYonetimSistemi.Data;
-using IcerikYonetimSistemi.Models;
+﻿using IcerikYonetimSistemi.Models;
+using IslemKatmani;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -17,19 +17,32 @@ namespace IcerikYonetimSistemi.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _context;
+        private readonly IcerikService _icerikIslemleri;
+        private readonly SayfaService _sayfaIslemleri;
+        private readonly EtiketIcerikService _etiketIcerikIslemleri;
+        private readonly YorumService _yorumIslemleri;
         private readonly UserManager<IdentityUser> _userManager;
 
-        public HomeController(ApplicationDbContext context, ILogger<HomeController> logger, UserManager<IdentityUser> userManager)
+        public HomeController(
+            ILogger<HomeController> logger,
+            UserManager<IdentityUser> userManager,
+            IcerikService icerikIslemleri,
+            SayfaService sayfaIslemleri,
+            YorumService yorumIslemleri,
+            EtiketIcerikService etiketIcerikIslemleri
+        )
         {
-            _context = context;
+            _sayfaIslemleri = sayfaIslemleri;
+            _yorumIslemleri = yorumIslemleri;
+            _etiketIcerikIslemleri = etiketIcerikIslemleri;
+            _icerikIslemleri = icerikIslemleri;
             _logger = logger;
             _userManager = userManager;
         }
 
         public IActionResult Sayfa(int id)
         {
-            Sayfa sayfa = _context.Sayfa.Include(x => x.Icerikler).FirstOrDefault(x => x.ID == id && x.Etkin);
+            Sayfa sayfa = _sayfaIslemleri.Sorgu().Include(x => x.Icerikler).FirstOrDefault(x => x.ID == id && x.Etkin);
 
             if (sayfa == null)
                 return NotFound();
@@ -39,11 +52,11 @@ namespace IcerikYonetimSistemi.Controllers
 
         public IActionResult Icerik(int id)
         {
-            Icerik icerik = _context.Icerik.Include(x => x.Yorumlar).ThenInclude(y => y.Kullanici).FirstOrDefault(x => x.ID == id && x.Etkin);
+            Icerik icerik = _icerikIslemleri.Sorgu().Include(x => x.Yorumlar).ThenInclude(y => y.Kullanici).FirstOrDefault(x => x.ID == id && x.Etkin);
 
             if (icerik == null)
                 return NotFound();
-            ViewBag.EtiketIcerik = _context.EtiketIcerik.Where(x => x.IcerikID == id).Include(x => x.Etiket).ToList();
+            ViewBag.EtiketIcerik = _etiketIcerikIslemleri.Sorgu().Where(x => x.IcerikID == id).Include(x => x.Etiket).ToList();
 
             ViewData["IcerikID"] = icerik.ID;
 
@@ -62,8 +75,7 @@ namespace IcerikYonetimSistemi.Controllers
                     yorum.KullaniciID = userID;
                     yorum.Tarih = DateTime.Now;
 
-                    _context.Yorum.Add(yorum);
-                    int sonuc = _context.SaveChanges();
+                    int sonuc = _yorumIslemleri.Ekle(yorum);
                 }
             }
             catch (Exception exp)

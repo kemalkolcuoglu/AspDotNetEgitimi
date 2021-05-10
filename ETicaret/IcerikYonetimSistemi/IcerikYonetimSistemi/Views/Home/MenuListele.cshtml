@@ -1,8 +1,8 @@
-﻿@using IcerikYonetimSistemi.Data
+﻿@using IslemKatmani
 @using Microsoft.EntityFrameworkCore
-@inject ApplicationDbContext _context
+@inject MenuService _context
 @{
-    var menu = _context.Menu.Where(x => x.Etkin).Include(x => x.Sayfalar).ToList();
+    var menu = _context.Sorgu().Where(x => x.Etkin).Include(x => x.Sayfalar).ToList();
 }
 
 <ul class="navbar-nav flex-grow-1">

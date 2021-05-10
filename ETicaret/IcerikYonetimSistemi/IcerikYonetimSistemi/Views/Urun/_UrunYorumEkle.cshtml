@@ -1,0 +1,14 @@
+﻿@model UrunYorum
+
+@{ 
+    var urunId = ViewData["UrunID"] as int?;
+}
+
+<form asp-action="YorumEkle" asp-controller="Urun" method="post">
+  <textarea asp-for="Metin"></textarea>
+  <b>Rating: </b> <input asp-for="Puan" />
+  <input type="hidden" asp-for="UrunId" value="@urunId" />
+  <button type="submit" class="btn btn-default pull-right">
+    Onayla
+  </button>
+</form>

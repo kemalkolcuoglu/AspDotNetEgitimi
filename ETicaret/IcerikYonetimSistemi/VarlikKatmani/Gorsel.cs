@@ -20,5 +20,7 @@ namespace VarlikKatmani
 
         [DefaultValue(true)]
         public bool Etkin { get; set; }
+
+        public List<UrunGaleri> UrunGaleri { get; set; }
     }
 }

@@ -1,6 +1,4 @@
-﻿using IcerikYonetimSistemi.Data;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
@@ -14,19 +12,16 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 {
     public class KullaniciController : TemelController
     {
-        private readonly ApplicationDbContext _context;
         private readonly ILogger<KullaniciController> _logger;
-        private readonly UserManager<Kullanici> _userManager;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public KullaniciController(
-            ApplicationDbContext context, 
             ILogger<KullaniciController> logger, 
-            UserManager<Kullanici> userManager, 
+            UserManager<IdentityUser> userManager, 
             RoleManager<IdentityRole> roleManager
         )
         {
-            _context = context;
             _logger = logger;
             _userManager = userManager;
             _roleManager = roleManager;
@@ -34,7 +29,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 
         public IActionResult Liste()
         {
-            List<Kullanici> kullanicilar = _userManager.Users.ToList();
+            List<IdentityUser> kullanicilar = _userManager.Users.ToList();
             return View(kullanicilar);
         }
 
@@ -44,7 +39,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Ekle(Kullanici user)
+        public async Task<IActionResult> Ekle(IdentityUser user)
         {
             try
             {
@@ -62,7 +57,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Kullanici user = await _userManager.FindByIdAsync(id);
+            IdentityUser user = await _userManager.FindByIdAsync(id);
 
             if (user == null)
                 return NotFound();
@@ -71,7 +66,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Duzenle(string id, Kullanici user)
+        public async Task<IActionResult> Duzenle(string id, IdentityUser user)
         {
             try
             {
@@ -89,7 +84,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Kullanici user = await _userManager.FindByIdAsync(id);
+            IdentityUser user = await _userManager.FindByIdAsync(id);
 
             if (user == null)
                 return NotFound();
@@ -102,7 +97,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
         {
             try
             {
-                Kullanici _user = await _userManager.FindByIdAsync(id);
+                IdentityUser _user = await _userManager.FindByIdAsync(id);
                 await _userManager.DeleteAsync(_user);
             }
             catch (Exception exp)
@@ -119,7 +114,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Kullanici user = await _userManager.FindByIdAsync(id);
+            IdentityUser user = await _userManager.FindByIdAsync(id);
 
             if (user == null)
                 return NotFound();
@@ -133,7 +128,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
         [HttpPost]
         public async Task<IActionResult> KullaniciyaRolVer(string id, List<string> rol)
         {
-            Kullanici user = await _userManager.FindByIdAsync(id);
+            IdentityUser user = await _userManager.FindByIdAsync(id);
             try
             {
                 IdentityResult identityResult = await _userManager.AddToRolesAsync(user, rol);

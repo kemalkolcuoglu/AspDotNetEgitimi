@@ -12,6 +12,7 @@ namespace VarlikKatmani
     {
         public Urun()
         {
+            UrunGaleri = new List<UrunGaleri>();
             UrunYorum = new List<UrunYorum>();
         }
 
@@ -33,6 +34,9 @@ namespace VarlikKatmani
         [Required, MaxLength(64), DisplayName("Görsel")]
         public string Gorsel { get; set; }
 
+        [Required, MaxLength(32)]
+        public string Marka { get; set; }
+
         public double Miktar { get; set; }
 
         public int Birim { get; set; }
@@ -44,5 +48,6 @@ namespace VarlikKatmani
         public Kategori Kategori { get; set; }
 
         public List<UrunYorum> UrunYorum { get; set; }
+        public List<UrunGaleri> UrunGaleri { get; set; }
     }
 }

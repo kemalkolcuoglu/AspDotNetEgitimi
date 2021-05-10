@@ -1,5 +1,4 @@
-﻿using IcerikYonetimSistemi.Data;
-using IcerikYonetimSistemi.Models;
+﻿using IslemKatmani;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -7,7 +6,6 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using VarlikKatmani;
 
 namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
@@ -15,11 +13,13 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
     public class SayfaController : TemelController
     {
         private readonly ILogger<SayfaController> _logger;
-        private readonly ApplicationDbContext _context;
-        public SayfaController(ILogger<SayfaController> logger, ApplicationDbContext context)
+        private readonly IslemRepository<Sayfa> _sayfaIslemleri;
+        private readonly MenuService _menuIslemleri;
+        public SayfaController(ILogger<SayfaController> logger, SayfaService sayfaIslemleri, MenuService menuIslemleri)
         {
             _logger = logger;
-            _context = context;
+            _sayfaIslemleri = sayfaIslemleri;
+            _menuIslemleri = menuIslemleri;
         }
 
         // CRUD - Create, Read, Update, Delete
@@ -27,7 +27,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 
         public IActionResult Liste()
         {
-            List<Sayfa> sayfalar = _context.Sayfa.Include(x => x.Menu).ToList();
+            List<Sayfa> sayfalar = _sayfaIslemleri.Sorgu().Include(x => x.Menu).ToList();
             return View(sayfalar);
         }
 
@@ -36,7 +36,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Sayfa sayfa = _context.Sayfa.FirstOrDefault(x => x.ID == id);
+            Sayfa sayfa = _sayfaIslemleri.Bul(x => x.ID == id);
 
             if (sayfa == null)
                 return NotFound();
@@ -50,7 +50,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 
         public IActionResult Ekle()
         {
-            ViewBag.Menuler = new SelectList(_context.Menu, nameof(Menu.ID), nameof(Menu.Baslik));
+            ViewBag.Menuler = new SelectList(_menuIslemleri.Listele(), nameof(Menu.ID), nameof(Menu.Baslik));
             return View();
         }
 
@@ -61,8 +61,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Sayfa.Add(sayfa);
-                    int sonuc = _context.SaveChanges();
+                    int sonuc = _sayfaIslemleri.Ekle(sayfa);
                     if (sonuc >= 1)
                         return RedirectToAction(nameof(Liste));
                 }
@@ -71,7 +70,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 _logger.LogError(exp, "Ekleme İşlemi Gerçekleştirilemedi - {Tarih}", DateTime.Now);
             }
-            ViewBag.Menuler = new SelectList(_context.Menu, nameof(Menu.ID), nameof(Menu.Baslik));
+            ViewBag.Menuler = new SelectList(_menuIslemleri.Listele(), nameof(Menu.ID), nameof(Menu.Baslik));
             return View(sayfa);
         }
 
@@ -84,12 +83,12 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Sayfa sayfa = _context.Sayfa.FirstOrDefault(x => x.ID == id);
+            Sayfa sayfa = _sayfaIslemleri.Bul(x => x.ID == id);
 
             if (sayfa == null)
                 return NotFound();
 
-            ViewBag.Menuler = new SelectList(_context.Menu, nameof(Menu.ID), nameof(Menu.Baslik));
+            ViewBag.Menuler = new SelectList(_menuIslemleri.Listele(), nameof(Menu.ID), nameof(Menu.Baslik));
 
             return View(sayfa);
         }
@@ -101,14 +100,14 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Sayfa _sayfa = _context.Sayfa.FirstOrDefault(x => x.ID == id);
+                    Sayfa _sayfa = _sayfaIslemleri.Bul(x => x.ID == id);
                     _sayfa.Baslik = sayfa.Baslik;
                     _sayfa.EkAlan = sayfa.EkAlan;
                     _sayfa.Etkin = sayfa.Etkin;
                     _sayfa.MenuID = sayfa.MenuID;
                     _sayfa.SEODescription = sayfa.SEODescription;
                     _sayfa.SEOTitle = sayfa.SEOTitle;
-                    int sonuc = _context.SaveChanges();
+                    int sonuc = _sayfaIslemleri.Guncele(_sayfa);
                     if (sonuc >= 1)
                         return RedirectToAction(nameof(Liste));
                 }
@@ -117,7 +116,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 _logger.LogError(exp, "Duzenleme Islemi Gerceklestirilemedi! - {Tarih}", DateTime.Now);
             }
-            ViewBag.Menuler = new SelectList(_context.Menu, nameof(Menu.ID), nameof(Menu.Baslik));
+            ViewBag.Menuler = new SelectList(_menuIslemleri.Listele(), nameof(Menu.ID), nameof(Menu.Baslik));
             return View(sayfa);
         }
 
@@ -130,7 +129,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Sayfa sayfa = _context.Sayfa.FirstOrDefault(x => x.ID == id);
+            Sayfa sayfa = _sayfaIslemleri.Bul(x => x.ID == id);
 
             if (sayfa == null)
                 return NotFound();
@@ -143,9 +142,8 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
         {
             try
             {
-                Sayfa _sayfa = _context.Sayfa.FirstOrDefault(x => x.ID == id);
-                _context.Sayfa.Remove(_sayfa);
-                int sonuc = _context.SaveChanges();
+                Sayfa _sayfa = _sayfaIslemleri.Bul(x => x.ID == id);
+                int sonuc = _sayfaIslemleri.Sil(_sayfa);
                 if (sonuc >= 1)
                     return RedirectToAction(nameof(Liste));
             }

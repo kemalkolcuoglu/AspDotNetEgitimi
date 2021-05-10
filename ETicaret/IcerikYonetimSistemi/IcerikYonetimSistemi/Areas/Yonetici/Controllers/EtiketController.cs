@@ -1,26 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using IcerikYonetimSistemi.Data;
-using IcerikYonetimSistemi.Models;
 using Microsoft.Extensions.Logging;
-using Microsoft.AspNetCore.Authorization;
 using VarlikKatmani;
+using IslemKatmani;
 
 namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 {
     public class EtiketController : TemelController
     {
         private readonly ILogger<EtiketController> _logger;
-        private readonly ApplicationDbContext _context;
-        public EtiketController(ILogger<EtiketController> logger, ApplicationDbContext context)
+        private readonly EtiketService _etiketIslemleri;
+        public EtiketController(ILogger<EtiketController> logger, EtiketService etiketIslemleri)
         {
             _logger = logger;
-            _context = context;
+            _etiketIslemleri = etiketIslemleri;
         }
 
         // CRUD - Create, Read, Update, Delete
@@ -28,7 +22,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 
         public IActionResult Liste()
         {
-            List<Etiket> etiketler = _context.Etiket.ToList();
+            List<Etiket> etiketler = _etiketIslemleri.Listele();
             return View(etiketler);
         }
 
@@ -37,7 +31,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Etiket etiket = _context.Etiket.FirstOrDefault(x => x.ID == id);
+            Etiket etiket = _etiketIslemleri.Bul(x => x.ID == id);
 
             if (etiket == null)
                 return NotFound();
@@ -61,8 +55,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Etiket.Add(etiket);
-                    int sonuc = _context.SaveChanges();
+                    int sonuc = _etiketIslemleri.Ekle(etiket);
                     if (sonuc >= 1)
                         return RedirectToAction(nameof(Liste));
                 }
@@ -83,7 +76,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Etiket etiket = _context.Etiket.FirstOrDefault(x => x.ID == id);
+            Etiket etiket = _etiketIslemleri.Bul(x => x.ID == id);
 
             if (etiket == null)
                 return NotFound();
@@ -98,9 +91,9 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Etiket _etiket = _context.Etiket.FirstOrDefault(x => x.ID == id);
+                    Etiket _etiket = _etiketIslemleri.Bul(x => x.ID == id);
                     _etiket.Baslik = etiket.Baslik;
-                    int sonuc = _context.SaveChanges();
+                    int sonuc = _etiketIslemleri.Guncele(_etiket);
                     if (sonuc >= 1)
                         return RedirectToAction(nameof(Liste));
                 }
@@ -121,7 +114,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Etiket etiket = _context.Etiket.FirstOrDefault(x => x.ID == id);
+            Etiket etiket = _etiketIslemleri.Bul(x => x.ID == id);
 
             if (etiket == null)
                 return NotFound();
@@ -134,9 +127,8 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
         {
             try
             {
-                Etiket _etiket = _context.Etiket.FirstOrDefault(x => x.ID == id);
-                _context.Etiket.Remove(_etiket);
-                int sonuc = _context.SaveChanges();
+                Etiket _etiket = _etiketIslemleri.Bul(x => x.ID == id);
+                int sonuc = _etiketIslemleri.Sil(_etiket);
                 if (sonuc >= 1)
                     return RedirectToAction(nameof(Liste));
             }

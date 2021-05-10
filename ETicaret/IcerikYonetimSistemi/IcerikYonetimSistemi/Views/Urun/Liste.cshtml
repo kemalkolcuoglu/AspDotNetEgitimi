@@ -1,0 +1,40 @@
+﻿@model List<Urun>
+
+<div class="features_items">
+  <h2 class="title text-center">Ürünler</h2>
+  @foreach (var item in Model)
+  {
+    <div class="col-sm-4">
+      <div class="product-image-wrapper">
+        <div class="single-products">
+          <div class="productinfo text-center">
+            <img src="https://picsum.photos/200" alt="" />
+            <h2>@item.IndirimliFiyat TL</h2>
+            <p>@item.Baslik</p>
+            <a class="btn btn-default add-to-cart" href="~/Urun/Urun/@item.ID"><i class="fa fa-shopping-cart"></i>Ürünü İncele</a>
+          </div>
+          <div class="product-overlay">
+            <div class="overlay-content">
+              <h2>@item.IndirimliFiyat TL</h2>
+              <p>@item.Baslik</p>
+              <a class = "btn btn-default add-to-cart" href="~/Urun/Urun/@item.ID"><i class="fa fa-shopping-cart"></i>Ürünü İncele</a>
+            </div>
+          </div>
+        </div>
+        <div class="choose">
+          <ul class="nav nav-pills nav-justified">
+            <li>
+              <a href="~/Urun/FavoriyeEkle/@item.ID"><i class="fa fa-plus-square"></i>Favoriye Ekle</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  }
+  <ul class="pagination">
+    <li class="active"><a href="">1</a></li>
+    <li><a href="">2</a></li>
+    <li><a href="">3</a></li>
+    <li><a href="">&raquo;</a></li>
+  </ul>
+</div>

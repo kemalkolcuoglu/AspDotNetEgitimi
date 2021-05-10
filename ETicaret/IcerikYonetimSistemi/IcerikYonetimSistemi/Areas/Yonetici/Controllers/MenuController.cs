@@ -1,25 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
-using IcerikYonetimSistemi.Data;
-using IcerikYonetimSistemi.Models;
 using Microsoft.Extensions.Logging;
 using VarlikKatmani;
+using IslemKatmani;
 
 namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 {
     public class MenuController : TemelController
     {
         private readonly ILogger<MenuController> _logger;
-        private readonly ApplicationDbContext _context;
-        public MenuController(ILogger<MenuController> logger, ApplicationDbContext context)
+        private readonly MenuService _menuIslemleri;
+        public MenuController(ILogger<MenuController> logger, MenuService menuIslemleri)
         {
             _logger = logger;
-            _context = context;
+            _menuIslemleri = menuIslemleri;
         }
 
         // CRUD - Create, Read, Update, Delete
@@ -27,7 +22,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
 
         public IActionResult Liste()
         {
-            List<Menu> menuler = _context.Menu.ToList();
+            List<Menu> menuler = _menuIslemleri.Listele();
             return View(menuler);
         }
 
@@ -36,7 +31,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Menu menu = _context.Menu.FirstOrDefault(x => x.ID == id);
+            Menu menu = _menuIslemleri.Bul(x => x.ID == id);
 
             if (menu == null)
                 return NotFound();
@@ -60,8 +55,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    _context.Menu.Add(menu);
-                    int sonuc = _context.SaveChanges();
+                    int sonuc = _menuIslemleri.Ekle(menu);
                     if (sonuc >= 1)
                         return RedirectToAction(nameof(Liste));
                 }
@@ -82,7 +76,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Menu menu = _context.Menu.FirstOrDefault(x => x.ID == id);
+            Menu menu = _menuIslemleri.Bul(x => x.ID == id);
 
             if (menu == null)
                 return NotFound();
@@ -97,13 +91,13 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    Menu _menu = _context.Menu.FirstOrDefault(x => x.ID == id);
+                    Menu _menu = _menuIslemleri.Bul(x => x.ID == id);
                     _menu.AcilirMenuMu = menu.AcilirMenuMu;
                     _menu.Baslik = menu.Baslik;
                     _menu.EkAlan = menu.EkAlan;
                     _menu.Etkin = menu.Etkin;
                     _menu.Ikon = menu.Ikon;
-                    int sonuc = _context.SaveChanges();
+                    int sonuc = _menuIslemleri.Guncele(_menu);
                     if (sonuc >= 1)
                         return RedirectToAction(nameof(Liste));
                 }
@@ -124,7 +118,7 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
             if (id == null)
                 return RedirectToAction(nameof(Liste));
 
-            Menu menu = _context.Menu.FirstOrDefault(x => x.ID == id);
+            Menu menu = _menuIslemleri.Bul(x => x.ID == id);
 
             if (menu == null)
                 return NotFound();
@@ -137,9 +131,8 @@ namespace IcerikYonetimSistemi.Areas.Yonetici.Controllers
         {
             try
             {
-                Menu _menu = _context.Menu.FirstOrDefault(x => x.ID == id);
-                _context.Menu.Remove(_menu);
-                int sonuc = _context.SaveChanges();
+                Menu _menu = _menuIslemleri.Bul(x => x.ID == id);
+                int sonuc = _menuIslemleri.Sil(_menu);
                 if (sonuc >= 1)
                     return RedirectToAction(nameof(Liste));
             }

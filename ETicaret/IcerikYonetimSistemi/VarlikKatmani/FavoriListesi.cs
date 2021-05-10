@@ -10,12 +10,15 @@ namespace VarlikKatmani
 {
     public class FavoriListesi
     {
-        public int KullaniciId { get; set; }
+        [Key]
+        public int Id { get; set; }
+
+        public string KullaniciId { get; set; }
 
         public int UrunId { get; set; }
 
         [ForeignKey(nameof(KullaniciId))]
-        public Kullanici Kullanici { get; set; }
+        public IdentityUser Kullanici { get; set; }
 
         [ForeignKey(nameof(UrunId))]
         public Urun Urun { get; set; }

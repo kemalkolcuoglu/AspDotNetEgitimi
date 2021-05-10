@@ -1,0 +1,351 @@
+﻿@model Urun
+
+@{ 
+    double? skor;
+    double eksik;
+    List<UrunYorum> siralanmisUrunYorumlar = new List<UrunYorum>();
+    if (Model.UrunYorum != null && Model.UrunYorum.Count != 0)
+    {
+      skor = ViewData["Skor"] as double?;
+      eksik = 5 - skor.Value;
+
+      siralanmisUrunYorumlar = Model.UrunYorum.OrderByDescending(x => x.Id).ToList();
+    }
+    else
+    {
+      skor = 0;
+      eksik = 0;
+    }
+
+    var onerilenler = ViewData["Onerilenler"] as List<Urun>;
+}
+
+<div class="product-details">
+  <div class="col-sm-5">
+    <div class="view-product">
+      <img src="https://picsum.photos/200" alt="" />
+      <h3>ZOOM</h3>
+    </div>
+    <div id="similar-product" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="item active">
+          @foreach (var item in Model.UrunGaleri)
+          {
+            <a href=""><img src="https://picsum.photos/200" alt=""></a>
+          }
+        </div>
+      </div>
+      <a class="left item-control" href="#similar-product" data-slide="prev">
+        <i class="fa fa-angle-left"></i>
+      </a>
+      <a class="right item-control" href="#similar-product" data-slide="next">
+        <i class="fa fa-angle-right"></i>
+      </a>
+    </div>
+  </div>
+  <div class="col-sm-7">
+    <div class="product-information">
+      <img src="images/product-details/new.jpg" class="newarrival" alt="" />
+      <h2>@Model.Baslik</h2>
+      <img src="~/default/images/product-details/rating.png" alt="" />
+      <span>
+        <s>@Model.Fiyat.ToString("#,##0.00") TL</s>
+        <span>@Model.IndirimliFiyat.ToString("#,##0.00") TL</span>
+        <label>Adet:</label>
+        <input id="miktar" type="text" value="1" />
+        <button type="button" id="sepeteEkle" class="btn btn-default cart">
+          <i class="fa fa-shopping-cart"></i>
+          Sepete Ekle
+        </button>
+      </span>
+      <p><b>Miktar:</b> @Model.Miktar</p>
+      <p><b>Marka:</b> @Model.Marka</p>
+      <p><b>İstek Listesine Ekle:</b></p>
+      <button id="favori" type="submit"><i id="favoriDurum" class="fa fa-heart"></i></button>
+      <p><b>Ürün Skoru: </b></p>
+      @for (int i = 0; i < skor; i++)
+      {
+        <i class="fa fa-star"></i>
+      }
+      @for (int i = 0; i < eksik; i++)
+      {
+        <i class="fa fa-star-o"></i>
+      }
+      @*TODO: Sosyal Medya Paylaşım alanı*@
+    </div>
+  </div>
+</div>
+<div class="category-tab shop-details-tab">
+  <div class="col-sm-12">
+    <ul class="nav nav-tabs">
+      <li><a href="#details" data-toggle="tab">Ürün Detayları</a></li>
+      <li><a href="#companyprofile" data-toggle="tab">Company Profile</a></li>
+      <li><a href="#tag" data-toggle="tab">Tag</a></li>
+      <li class="active"><a href="#reviews" data-toggle="tab">Yorumlar (@Model.UrunYorum.Count)</a></li>
+    </ul>
+  </div>
+  <div class="tab-content">
+    <div class="tab-pane fade" id="details">
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery1.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery2.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery3.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery4.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="companyprofile">
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery1.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery3.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery2.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery4.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane fade" id="tag">
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery1.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery2.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery3.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-3">
+        <div class="product-image-wrapper">
+          <div class="single-products">
+            <div class="productinfo text-center">
+              <img src="images/home/gallery4.jpg" alt="" />
+              <h2>$56</h2>
+              <p>Easy Polo Black Edition</p>
+              <button type="button" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>Add to cart</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="tab-pane fade active in" id="reviews">
+      <div class="col-sm-12">
+        @foreach (var item in siralanmisUrunYorumlar)
+        {
+          <div>
+            <ul>
+              <li><a href=""><i class="fa fa-user"></i>@item.Kullanici.Email</a></li>
+              <li><a href=""><i class="fa fa-calendar-o"></i>@item.Tarih.ToString("dd.MM.yyyy")</a></li>
+              <li>
+                @{ int star = item.Puan; int bos = 5 - star;}
+                @for (int i = 0; i < star; i++)
+                {
+                  <i class="fa fa-star"></i>
+                }
+                @for (int i = 0; i < bos; i++)
+                {
+                  <i class="fa fa-star-o"></i>
+                }
+              </li>
+            </ul>
+            <p>@item.Metin</p>
+          </div>
+        }
+        <p><b>Yorum Giriniz</b></p>
+        @if (this.User.Identity.IsAuthenticated)
+        {
+          <partial name="_UrunYorumEkle" model="new UrunYorum() { UrunId = Model.ID }" view-data="ViewData" />
+        }
+      </div>
+    </div>
+  </div>
+</div>
+<div class="recommended_items">
+  <h2 class="title text-center">recommended items</h2>
+  <div id="recommended-item-carousel" class="carousel slide" data-ride="carousel">
+    <div class="carousel-inner">
+      <div class="item active">
+        @foreach (var item in onerilenler)
+        {
+          <div class="col-sm-4">
+            <div class="product-image-wrapper">
+              <div class="single-products">
+                <div class="productinfo text-center">
+                  <img src="~/default/images/shop/@item.Gorsel" alt="" />
+                  <s>@item.Fiyat</s>
+                  <h2>@item.IndirimliFiyat</h2>
+                  <p>@item.Baslik</p>
+                  <a href="/Urun/Urun/@item.ID" class="btn btn-default add-to-cart"><i class="fa fa-shopping-cart"></i>İncele</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    </div>
+    <a class="left recommended-item-control" href="#recommended-item-carousel" data-slide="prev">
+      <i class="fa fa-angle-left"></i>
+    </a>
+    <a class="right recommended-item-control" href="#recommended-item-carousel" data-slide="next">
+      <i class="fa fa-angle-right"></i>
+    </a>
+  </div>
+</div>
+
+
+@section Scripts
+{
+  <script>
+    $('#favori').on("click", function () {
+      var icon = $('#favoriDurum');
+      $.ajax({
+        url: '@Url.Action("FavoriEkle", "Urun", new { id = Model.ID })',
+        type: 'POST',
+        success: function (data, textStatus, xhr) {
+          if (data == 1) {
+            icon.attr('class').replace('fa fa-heart')
+          }
+          else {
+            icon.attr('class').replace('fa fa-heart-o')
+          }
+        },
+        error: function (xhr, textStatus, errorThrown) {
+          console.log('Error in Operation: ' + xhr.responseJSON.title);
+        }
+      });
+    });
+  </script>
+
+  <script>
+    $('#sepeteEkle').on("click", function () {
+      var miktar = $('#miktar').val();
+      $.ajax({
+        url: '@Url.Action("SepeteEkle", "Urun", new { id = Model.ID })',
+        //url: '/Urun/SepeteEkle/1',
+        type: 'POST',
+        data: miktar,
+        contentType: 'application/json; charset=utf-8',
+        success: function (data, textStatus, xhr) {
+          if (data) {
+            alert("İşlem Gerçekleşti");
+          }
+          else {
+            alert("İşlem Gerçekleştirilemedi");
+          }
+        },
+        error: function () {
+          console.log('Error in Operation: ');
+        }
+      });
+    });
+  </script>
+}

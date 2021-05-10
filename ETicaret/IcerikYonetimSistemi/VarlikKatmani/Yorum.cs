@@ -26,6 +26,6 @@ namespace VarlikKatmani
         public virtual Icerik Icerik { get; set; }
 
         [ForeignKey(nameof(KullaniciID))]
-        public virtual Kullanici Kullanici { get; set; }
+        public virtual IdentityUser Kullanici { get; set; }
     }
 }

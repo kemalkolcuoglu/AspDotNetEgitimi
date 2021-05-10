@@ -1,7 +1,7 @@
-﻿@model Yorum
+﻿@model UrunYorum
 
 @{ 
-    var icerikId = ViewData["IcerikID"] as int?;
+    var urunId = ViewData["UrunID"] as int?;
 }
 <h4>Yorum Ekle</h4>
 <hr />
@@ -10,11 +10,16 @@
     <form asp-action="YorumEkle" asp-controller="Home">
       <div asp-validation-summary="ModelOnly" class="text-danger"></div>
       <div class="form-group">
+        <label asp-for="Puan" class="control-label"></label>
+        @Html.EditorFor(x => x.Puan)
+        <span asp-validation-for="Puan" class="text-danger"></span>
+      </div>
+      <div class="form-group">
         <label asp-for="Metin" class="control-label"></label>
         <input asp-for="Metin" class="form-control" />
         <span asp-validation-for="Metin" class="text-danger"></span>
       </div>
-      <input type="hidden" asp-for="IcerikID" value="@icerikId" />
+      <input type="hidden" asp-for="UrunId" value="@urunId" />
       <div class="form-group">
         <input type="submit" value="Onayla" class="btn btn-primary" />
       </div>
