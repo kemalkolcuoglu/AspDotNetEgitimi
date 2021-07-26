@@ -62,5 +62,36 @@ namespace SimpleRentACarProject.API.Controllers
             else
                 return BadRequest(ModelState);
         }
+
+        [HttpDelete]
+        [Route("DeleteByBrandAndModel")]
+        public IActionResult DeleteByBrandAndModel(string marka, string model)
+        {
+            int sonuc = _aracService.DeleteByBrandAndModel(marka, model);
+            if (sonuc >= 1)
+                return Ok();
+            else
+                return BadRequest(ModelState);
+        }
+
+        [HttpPost]
+        [Route("kirala")] // localhost:5000/Arac/Kirala?aracId=1&musteriId=1
+        public IActionResult AracKirala(int aracId, int musteriId)
+        {
+            int result = _aracService.AraciKirala(aracId, musteriId);
+            if (result > 0)
+                return Ok();
+            return BadRequest();
+        }
+
+        [HttpDelete]
+        [Route("kirayisonlandir")] // localhost:5000/Arac/kirayisonlandir?aracId=1&musteriId=1
+        public IActionResult KirayiSonlandir(int aracId, int musteriId)
+        {
+            int result = _aracService.KirayiSonlandir(aracId, musteriId);
+            if (result > 0)
+                return Ok();
+            return BadRequest();
+        }
     }
 }

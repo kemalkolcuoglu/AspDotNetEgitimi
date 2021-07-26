@@ -61,10 +61,18 @@ namespace SimpleRentACarProject.Business
             _context.MusteriAraclar.Add(musteriArac);
             return _context.SaveChanges();
         }
+
         public int KirayiSonlandir(int aracId, int musteriId)
         {
             MusteriArac musteriArac =_context.MusteriAraclar.SingleOrDefault(x => x.AracId == aracId && x.MusteriId == musteriId);
             _context.MusteriAraclar.Remove(musteriArac);
+            return _context.SaveChanges();
+        }
+
+        public int DeleteByBrandAndModel(string marka, string model)
+        {
+            Arac arac = _context.Araclar.FirstOrDefault(x => x.Marka == marka && x.Model == model);
+            _context.Araclar.Remove(arac);
             return _context.SaveChanges();
         }
     }

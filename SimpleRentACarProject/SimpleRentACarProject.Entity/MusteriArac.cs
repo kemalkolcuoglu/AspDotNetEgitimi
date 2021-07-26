@@ -5,6 +5,9 @@ namespace SimpleRentACarProject.Entity
 {
     public class MusteriArac
     {
+        [Key]
+        public int Id { get; set; }
+
         [Required]
         public int MusteriId { get; set; }
 

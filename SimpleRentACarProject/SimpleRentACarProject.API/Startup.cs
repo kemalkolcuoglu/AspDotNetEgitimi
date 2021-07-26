@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using SimpleRentACarProject.API.Data;
 using SimpleRentACarProject.API.Helpers;
 using SimpleRentACarProject.API.Services;
 using SimpleRentACarProject.API.Services.Abstract;

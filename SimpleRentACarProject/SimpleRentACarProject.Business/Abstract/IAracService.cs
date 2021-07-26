@@ -7,5 +7,6 @@ namespace SimpleRentACarProject.Business.Abstract
     {
         int AraciKirala(int aracId, int musteriId);
         int KirayiSonlandir(int aracId, int musteriId);
+        int DeleteByBrandAndModel(string marka, string model);
     }
 }
