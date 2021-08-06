@@ -14,5 +14,7 @@ namespace WebAPIWithEFC.Context
         }
 
         public DbSet<Kisi> Kisiler { get; set; }
+
+        public DbSet<Sayilar> Sayilar { get; set; }
     }
 }
